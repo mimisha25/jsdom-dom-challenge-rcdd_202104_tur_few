@@ -1,4 +1,4 @@
-let ctr = 0;
+ const count = 0;
  const counterNode = document.querySelector('#counter');
  const comments = document.querySelector('.comments');
  let iterId;
@@ -30,8 +30,8 @@ let ctr = 0;
  }
 
  function addCtr(amount) {
-   ctr = ctr + amount;
-   counterNode.innerText = ctr;
+   count= count + amount;
+   counterNode.innerText = count;
  }
 
  function startIteration() {
@@ -52,7 +52,7 @@ let ctr = 0;
      addCtr(1);
 
    if (id === 'heart') {
-     const num = ctr;
+     const num = count;
      liked.push(num);
 
      let li = document.querySelector(`#n${num}`);
@@ -89,7 +89,7 @@ let ctr = 0;
    }
 
    if (id === 'restart') {
-     addCtr(ctr * -1);
+     addCtr(count * -1);
      startIteration();
      changeDisabledNodeArray(false, btns);
    }
