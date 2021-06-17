@@ -1,80 +1,100 @@
-let minus = document.getElementById('minus');
- let h1Counter = document.getElementById('counter');
- let plus = document.getElementById('plus');
- let heart = document.getElementById('heart');
- let interval;
+let ctr = 0;
+ const counterNode = document.querySelector('#counter');
+ const comments = document.querySelector('.comments');
+ let iterId;
+ const btns = document.querySelectorAll('button');
 
- let timer = () => {
-     interval = this.setInterval(() => {
-         h1Counter.innerText = parseInt(h1Counter.innerText) + 1
-     }, 1000)
- };
- let decrement = () => {
-     minus.onclick = () => {
-         h1Counter.innerText = parseInt(h1Counter.innerText) - 1
+ window.addEventListener('DOMContentLoaded', () => {
+     addRestartBtn();
+
+     startIteration();
+     document.body.addEventListener('click', handleBtns);
+     document.addEventListener('submit', postComment);
+
+ });
+
+ function addRestartBtn() {
+   const restart = document.createElement('button');
+   restart.id = 'restart';
+   restart.innerText = 'restart';
+   document.querySelector('#pause').insertAdjacentElement("afterend", restart);
+ }
+
+ function postComment(e) {
+   e.preventDefault();
+   const data = new FormData(e.target);
+   const comment = data.get('comment');
+   const p = document.createElement('p');
+   p.innerText = comment;
+   comments.append(p);
+ }
+
+ function addCtr(amount) {
+   ctr = ctr + amount;
+   counterNode.innerText = ctr;
+ }
+
+ function startIteration() {
+   iterId = window.setInterval(addCtr, 2*1000, 1);
+ }
+
+ function stopIteration() {
+   window.clearInterval(iterId);
+ }
+
+ const liked = [];
+ const likes = document.querySelector('.likes');
+ function handleBtns(e) {
+   const id = e.target.id;
+   if (id === 'minus')
+     addCtr(-1);
+   if (id === 'plus')
+     addCtr(1);
+
+   if (id === 'heart') {
+     const num = ctr;
+     liked.push(num);
+
+     let li = document.querySelector(`#n${num}`);
+     if (!li) {
+       li = document.createElement('li');
+       li.id = `n${num}`;
      }
- };
 
- let increment = () => {
-     plus.onclick = () => {
-         h1Counter.innerText = parseInt(h1Counter.innerText) + 1
-     }
- };
+     li.innerText = `${num} has been liked ${liked.filter(x => x == num).length} times`;
 
- let like = () => {
-     let counter, likesNumber = 1
-     heart.onclick = () => {
-         if (h1Counter.innerText == counter) {
-             likesNumber = likesNumber + 1
-         } else {
-             likesNumber = 1
-         }
-         let likes = document.getElementsByTagName('ul')[0]
-         let li = document.createElement('li')
-         li.innerText = h1Counter.innerText + ` has been liked ${likesNumber} time`
-         counter = h1Counter.innerText
-         likes.appendChild(li)
+     likes.append(li);
+   }
 
-     }
- };
+   if (id === 'pause') {
+     stopIteration(iterId);
 
- let pause = () => {
-     let btnState = "pause"
-     let pause = document.getElementById('pause')
-     pause.onclick = () => {
-         if (btnState === "pause") {
-             pause.innerText = "resume"
-             minus.disabled = true
-             plus.disabled = true
-             heart.disabled = true
-             btnState = "resume"
-             clearInterval(interval)
-         } else if (btnState === "resume") {
-             pause.innerText = "pause"
-             minus.disabled = false
-             plus.disabled = false
-             heart.disabled = false
-             btnState = "pause"
-             timer()
-         }
+     changeDisabledNodeArray(true, btns);
+     e.target.disabled = false;
 
-     }
- };
+     e.target.id = 'resume';
+     e.target.value = 'resume';
+     e.target.innerText = 'resume';
 
- let submitForm = (e) => {
-     e.preventDefault()
-     let mssgInput = document.getElementById('comment-input')
-     let p = document.createElement('p')
-     p.innerHTML = mssgInput.value
-     document.getElementById("list").appendChild(p)
-     mssgInput.value = ""
- };
+   }
 
- let form = document.getElementById('comment-form');
- form.onsubmit = submitForm;
+   if (id === 'resume') {
+     iterId = startIteration();
 
- timer();
- decrement();
- increment();
- like();
- pause();
+     changeDisabledNodeArray(false, btns);
+
+     e.target.id = 'pause';
+     e.target.value = 'pause';
+     e.target.innerText = 'pause';
+   }
+
+   if (id === 'restart') {
+     addCtr(ctr * -1);
+     startIteration();
+     changeDisabledNodeArray(false, btns);
+   }
+ }
+
+ function changeDisabledNodeArray(bool, nodeArr) {
+   nodeArr.forEach(node => node.disabled = bool);
+ }
