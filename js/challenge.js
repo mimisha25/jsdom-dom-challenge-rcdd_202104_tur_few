@@ -29,13 +29,13 @@ let ctr = 0;
    comments.append(p);
  }
 
- function addCtr(amount) {
+ function counterAdd (amount) {
    ctr = ctr + amount;
    counterNode.innerText = ctr;
  }
 
  function startIteration() {
-   iterId = window.setInterval(addCtr, 2*1000, 1);
+   iterId = window.setInterval(counterAdd, 2*1000, 1);
  }
 
  function stopIteration() {
@@ -47,9 +47,9 @@ let ctr = 0;
  function handleBtns(e) {
    const id = e.target.id;
    if (id === 'minus')
-     addCtr(-1);
+     counterAdd(-1);
    if (id === 'plus')
-     addCtr(1);
+     counterAdd(1);
 
    if (id === 'heart') {
      const num = ctr;
@@ -89,7 +89,7 @@ let ctr = 0;
    }
 
    if (id === 'restart') {
-     addCtr(ctr * -1);
+     counterAdd(ctr * -1);
      startIteration();
      changeDisabledNodeArray(false, btns);
    }
