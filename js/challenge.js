@@ -2,7 +2,7 @@ let counter = 0;
  const counterNode = document.querySelector('#counter');
  const comments = document.querySelector('.comments');
  let iterId;
- const btns = document.querySelectorAll('button');
+ const buttons = document.querySelectorAll('button');
 
  window.addEventListener('DOMContentLoaded', () => {
      addRestartBtn();
@@ -66,7 +66,7 @@ let counter = 0;
    if (id === 'pause') {
      stopIteration(iterId);
 
-     changeDisabledNodeArray(true, btns);
+     changeDisabledNodeArray(true, buttons);
      e.target.disabled = false;
      e.target.id = 'resume';
      e.target.value = 'resume';
@@ -76,7 +76,7 @@ let counter = 0;
 
    if (id === 'resume') {
      iterId = startIteration();
-     changeDisabledNodeArray(false, btns);
+     changeDisabledNodeArray(false, buttons);
      e.target.id = 'pause';
      e.target.value = 'pause';
      e.target.innerText = 'pause';
@@ -85,7 +85,7 @@ let counter = 0;
    if (id === 'restart') {
      counterAdd(counter * -1);
      startIteration();
-     changeDisabledNodeArray(false, btns);
+     changeDisabledNodeArray(false, buttons);
    }
  }
 
