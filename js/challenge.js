@@ -1,18 +1,19 @@
- const count = 0;
+let ctr = 0;
  const counterNode = document.querySelector('#counter');
  const comments = document.querySelector('.comments');
  let iterId;
- const buttons = document.querySelectorAll('button');
+ const btns = document.querySelectorAll('button');
 
  window.addEventListener('DOMContentLoaded', () => {
-     restartButton();
+     addRestartBtn();
+
      startIteration();
-     document.body.addEventListener('click', handleButtons);
+     document.body.addEventListener('click', handleBtns);
      document.addEventListener('submit', postComment);
 
  });
 
- function restartButton() {
+ function addRestartBtn() {
    const restart = document.createElement('button');
    restart.id = 'restart';
    restart.innerText = 'restart';
@@ -29,8 +30,8 @@
  }
 
  function addCtr(amount) {
-   count= count + amount;
-   counterNode.innerText = count;
+   ctr = ctr + amount;
+   counterNode.innerText = ctr;
  }
 
  function startIteration() {
@@ -43,45 +44,54 @@
 
  const liked = [];
  const likes = document.querySelector('.likes');
- function handleButtons(e) {
+ function handleBtns(e) {
    const id = e.target.id;
    if (id === 'minus')
      addCtr(-1);
    if (id === 'plus')
      addCtr(1);
+
    if (id === 'heart') {
-     const num = count;
+     const num = ctr;
      liked.push(num);
+
      let li = document.querySelector(`#n${num}`);
      if (!li) {
        li = document.createElement('li');
        li.id = `n${num}`;
      }
+
      li.innerText = `${num} has been liked ${liked.filter(x => x == num).length} times`;
+
      likes.append(li);
    }
 
    if (id === 'pause') {
      stopIteration(iterId);
-     changeDisabledNodeArray(true, buttons);
+
+     changeDisabledNodeArray(true, btns);
      e.target.disabled = false;
+
      e.target.id = 'resume';
      e.target.value = 'resume';
      e.target.innerText = 'resume';
+
    }
 
    if (id === 'resume') {
      iterId = startIteration();
-     changeDisabledNodeArray(false, buttons);
+
+     changeDisabledNodeArray(false, btns);
+
      e.target.id = 'pause';
      e.target.value = 'pause';
      e.target.innerText = 'pause';
    }
 
    if (id === 'restart') {
-     addCtr(count * -1);
+     addCtr(ctr * -1);
      startIteration();
-     changeDisabledNodeArray(false, buttons);
+     changeDisabledNodeArray(false, btns);
    }
  }
 
