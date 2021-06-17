@@ -6,9 +6,8 @@ let counter = 0;
 
  window.addEventListener('DOMContentLoaded', () => {
      addRestartBtn();
-
      startIteration();
-     document.body.addEventListener('click', handleBtns);
+     document.body.addEventListener('click', handleButtons);
      document.addEventListener('submit', postComment);
 
  });
@@ -44,7 +43,7 @@ let counter = 0;
 
  const liked = [];
  const likes = document.querySelector('.likes');
- function handleBtns(e) {
+ function handleButtons(e) {
    const id = e.target.id;
    if (id === 'minus')
      counterAdd(-1);
@@ -60,9 +59,7 @@ let counter = 0;
        li = document.createElement('li');
        li.id = `n${num}`;
      }
-
      li.innerText = `${num} has been liked ${liked.filter(x => x == num).length} times`;
-
      likes.append(li);
    }
 
@@ -71,7 +68,6 @@ let counter = 0;
 
      changeDisabledNodeArray(true, btns);
      e.target.disabled = false;
-
      e.target.id = 'resume';
      e.target.value = 'resume';
      e.target.innerText = 'resume';
@@ -80,9 +76,7 @@ let counter = 0;
 
    if (id === 'resume') {
      iterId = startIteration();
-
      changeDisabledNodeArray(false, btns);
-
      e.target.id = 'pause';
      e.target.value = 'pause';
      e.target.innerText = 'pause';
