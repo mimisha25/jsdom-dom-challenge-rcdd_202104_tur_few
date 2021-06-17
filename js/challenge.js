@@ -5,15 +5,14 @@
  const buttons = document.querySelectorAll('button');
 
  window.addEventListener('DOMContentLoaded', () => {
-     addRestartBtn();
-
+     restartButton();
      startIteration();
-     document.body.addEventListener('click', handleBtns);
+     document.body.addEventListener('click', handleButtons);
      document.addEventListener('submit', postComment);
 
  });
 
- function addRestartBtn() {
+ function restartButton() {
    const restart = document.createElement('button');
    restart.id = 'restart';
    restart.innerText = 'restart';
@@ -44,7 +43,7 @@
 
  const liked = [];
  const likes = document.querySelector('.likes');
- function handleBtns(e) {
+ function handleButtons(e) {
    const id = e.target.id;
    if (id === 'minus')
      addCtr(-1);
